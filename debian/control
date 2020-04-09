@@ -1,0 +1,19 @@
+Source: digup
+Section: utils
+Priority: optional
+Maintainer: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Build-Depends: debhelper-compat (= 12)
+Standards-Version: 4.5.0
+Homepage: https://panthema.net/2009/digup/
+Vcs-Browser: https://github.com/sudipm-mukherjee/digup
+Vcs-Git: https://github.com/sudipm-mukherjee/digup.git
+
+Package: digup
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Digest Updating Tool
+ digup is a tool to update md5sum or shasum digest files. It will read
+ existing digest files, check the current directory for new, updated,
+ modified, renamed or deleted files and query the user with a summary
+ of changes. After reviewing the updates, they can be written back to
+ the digest file.
