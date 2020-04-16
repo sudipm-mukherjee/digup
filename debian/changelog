@@ -1,3 +1,10 @@
+digup (0.6.55-2) unstable; urgency=medium
+
+  * Add Rules-Requires-Root: no.
+  * Add watch file.
+
+ -- Sudip Mukherjee <sudipm.mukherjee@gmail.com>  Thu, 16 Apr 2020 15:44:24 +0100
+
 digup (0.6.55-1) unstable; urgency=medium
 
   * Initial release (Closes: #949308)
