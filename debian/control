@@ -2,7 +2,7 @@ Source: digup
 Section: utils
 Priority: optional
 Maintainer: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Build-Depends: debhelper-compat (= 12)
+Build-Depends: debhelper-compat (= 13)
 Standards-Version: 4.5.0
 Rules-Requires-Root: no
 Homepage: https://panthema.net/2009/digup/
