@@ -1,9 +1,13 @@
-digup (0.6.55-3) UNRELEASED; urgency=medium
+digup (0.6.55-3) unstable; urgency=medium
 
+  [ Debian Janitor ]
   * Set upstream metadata fields: Bug-Database, Bug-Submit, Repository,
     Repository-Browse.
 
- -- Debian Janitor <janitor@jelmer.uk>  Thu, 07 May 2020 04:36:19 +0000
+  [ Sudip Mukherjee ]
+  * Update compat level to 13.
+
+ -- Sudip Mukherjee <sudipm.mukherjee@gmail.com>  Fri, 29 May 2020 14:42:59 +0100
 
 digup (0.6.55-2) unstable; urgency=medium
 
