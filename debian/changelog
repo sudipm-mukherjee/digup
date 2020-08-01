@@ -1,3 +1,10 @@
+digup (0.6.57-1) unstable; urgency=medium
+
+  * Update to new upstream v0.6.57
+  * Move Vcs to salsa.
+
+ -- Sudip Mukherjee <sudipm.mukherjee@gmail.com>  Sat, 01 Aug 2020 17:36:32 +0100
+
 digup (0.6.55-3) unstable; urgency=medium
 
   [ Debian Janitor ]
