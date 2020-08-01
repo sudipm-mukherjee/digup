@@ -6,8 +6,8 @@ Build-Depends: debhelper-compat (= 13)
 Standards-Version: 4.5.0
 Rules-Requires-Root: no
 Homepage: https://panthema.net/2009/digup/
-Vcs-Browser: https://github.com/sudipm-mukherjee/digup
-Vcs-Git: https://github.com/sudipm-mukherjee/digup.git
+Vcs-Browser: https://salsa.debian.org/sudip/digup
+Vcs-Git: https://salsa.debian.org/sudip/digup.git
 
 Package: digup
 Architecture: any
