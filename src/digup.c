@@ -41,7 +41,7 @@
  * Basic Type Definitions *
  **************************/
 
-typedef enum { FALSE, TRUE } bool;
+typedef enum { FALSE, TRUE } dig_bool;
 
 enum DigestType { DT_NONE, DT_MD5, DT_SHA1, DT_SHA256, DT_SHA512 };
 
@@ -79,11 +79,11 @@ const char* g_progname = NULL;
 /* various parameters set by the command line parameters */
 
 int gopt_verbose = 2;
-bool gopt_batch = FALSE;
-bool gopt_fullcheck = FALSE;
-bool gopt_followsymlinks = FALSE;
-bool gopt_onlymodified = FALSE;
-bool gopt_update = FALSE;
+dig_bool gopt_batch = FALSE;
+dig_bool gopt_fullcheck = FALSE;
+dig_bool gopt_followsymlinks = FALSE;
+dig_bool gopt_onlymodified = FALSE;
+dig_bool gopt_update = FALSE;
 char* gopt_digestfile = NULL;
 enum DigestType gopt_digesttype = DT_NONE;
 unsigned int gopt_modify_window = 0;
@@ -377,7 +377,7 @@ int fprintfcrc(uint32_t *crc, FILE* fp, const char *fmt, ...)
  * Transform each \n to a new line and each \\ back to a slash. no
  * other escapes characters are allowed.
  */
-bool unescape_filename(char *str)
+dig_bool unescape_filename(char *str)
 {
     size_t i, j = 0;
 
@@ -420,7 +420,7 @@ bool unescape_filename(char *str)
  * to main function whether escaping is needed. The function will
  * replaced the malloc()ed parameter string in str.
  */
-bool needescape_filename(char** str)
+dig_bool needescape_filename(char** str)
 {
     int needescape = 0;
     char *s, *t, *newstr;
@@ -493,7 +493,7 @@ void replace_backslahes_with_slashes(char* s)
  * error while calculating the digest, the function returns FALSE and
  * outerror is filled with an error message string.
  */
-bool digest_file2(const char* filepath,
+dig_bool digest_file2(const char* filepath,
 		  long long filesize,
 		  digest_ctx* digctx,
 		  digest_result** outdigest,
@@ -600,7 +600,7 @@ bool digest_file2(const char* filepath,
  * as a malloc()ed hex string in outdigest, or returns FALSE if there
  * was a read error.
  */
-bool digest_file(const char* filepath, long long filesize,
+dig_bool digest_file(const char* filepath, long long filesize,
                  digest_result** outdigest, char** outerror)
 {
     digest_ctx digctx;
@@ -980,7 +980,7 @@ int parse_digestline(const char* line, const unsigned int linenum,
 	enum DigestType this_digesttype = DT_NONE;
 	char* filename = NULL;
 
-	bool escaped_filename = FALSE;
+	dig_bool escaped_filename = FALSE;
 
 	if (line[p] == '\\')
 	{
@@ -1104,7 +1104,7 @@ int parse_digestline(const char* line, const unsigned int linenum,
     }
 }
 
-bool select_digestfile(void)
+dig_bool select_digestfile(void)
 {
     /*
       Check for existing standard digest file names. However, if
@@ -1172,7 +1172,7 @@ bool select_digestfile(void)
     return TRUE;
 }
 
-bool read_digestfile(void)
+dig_bool read_digestfile(void)
 {
     FILE* sumfile;
     struct FileInfo tempinfo;
@@ -1309,7 +1309,7 @@ bool read_digestfile(void)
  * Functions to recursively scan directories and process file *
  *************************************************************/
 
-bool process_file(const char* filepath, const mystatst* st)
+dig_bool process_file(const char* filepath, const mystatst* st)
 {
     struct rb_node* fileiter;
     struct rb_node* digestiter;
@@ -1452,7 +1452,7 @@ bool process_file(const char* filepath, const mystatst* st)
 	digestiter = rb_find(g_filedigestmap, fileinfo->digest);
 	if (digestiter != NULL)
 	{
-	    bool copied = FALSE;
+	    dig_bool copied = FALSE;
 	    struct rb_node* nodecopy = digestiter;
 
 	    /* test if the oldfile still exists. */
@@ -1543,7 +1543,7 @@ bool process_file(const char* filepath, const mystatst* st)
     }
 }
 
-bool process_symlink(const char* filepath, const mystatst* st)
+dig_bool process_symlink(const char* filepath, const mystatst* st)
 {
     struct rb_node* fileiter;
 
@@ -1742,7 +1742,7 @@ struct DirLevel* dirstack = NULL;
 size_t dirstackmax = 0;
 size_t dirstacklen = 0;
 
-bool dirstack_push(const mystatst* st)
+dig_bool dirstack_push(const mystatst* st)
 {
 #if !ON_WIN32 /* win32 under mingw has no inode numbers. */
 
@@ -1795,7 +1795,7 @@ void dirstack_pop(const mystatst* st)
 	--dirstacklen;
 }
 
-bool scan_directory(const char* path, const mystatst* st)
+dig_bool scan_directory(const char* path, const mystatst* st)
 {
     DIR* dirp;
 
@@ -1805,7 +1805,7 @@ bool scan_directory(const char* path, const mystatst* st)
     unsigned int filenamepos = 0;
     unsigned int filenamemax = 0;
 
-    bool exclude_marker_found = FALSE;
+    dig_bool exclude_marker_found = FALSE;
 
     if (!dirstack_push(st))
     {
@@ -1966,7 +1966,7 @@ bool scan_directory(const char* path, const mystatst* st)
     return TRUE;
 }
 
-bool start_scan(const char* path)
+dig_bool start_scan(const char* path)
 {
     mystatst st;
 
@@ -1999,13 +1999,13 @@ bool start_scan(const char* path)
 struct CommandEntry
 {
     const char* name;
-    bool	(*func)(void);
+    dig_bool	(*func)(void);
     const char*	help;
 };
 
 static struct CommandEntry cmdlist[16];
 
-bool filelist_clean(void)
+dig_bool filelist_clean(void)
 {
     return ( rb_size(g_filelist) == g_filelist_seen + g_filelist_touched );
 }
@@ -2049,7 +2049,7 @@ void print_summary(void)
     fprintf(stdout, "      Total: %d\n", rb_size(g_filelist));
 }
 
-bool cmd_help(void)
+dig_bool cmd_help(void)
 {
     int i;
 
@@ -2065,7 +2065,7 @@ bool cmd_help(void)
     return TRUE;
 }
 
-bool cmd_new(void)
+dig_bool cmd_new(void)
 {
     struct rb_node* node;
     unsigned int count = 0;
@@ -2088,7 +2088,7 @@ bool cmd_new(void)
     return TRUE;
 }
 
-bool cmd_untouched(void)
+dig_bool cmd_untouched(void)
 {
     struct rb_node* node;
     unsigned int count = 0;
@@ -2111,7 +2111,7 @@ bool cmd_untouched(void)
     return TRUE;
 }
 
-bool cmd_touched(void)
+dig_bool cmd_touched(void)
 {
     struct rb_node* node;
     unsigned int count = 0;
@@ -2135,7 +2135,7 @@ bool cmd_touched(void)
     return TRUE;
 }
 
-bool cmd_changed(void)
+dig_bool cmd_changed(void)
 {
     struct rb_node* node;
     unsigned int count = 0;
@@ -2159,7 +2159,7 @@ bool cmd_changed(void)
     return TRUE;
 }
 
-bool cmd_deleted(void)
+dig_bool cmd_deleted(void)
 {
     struct rb_node* node;
     unsigned int count = 0;
@@ -2183,7 +2183,7 @@ bool cmd_deleted(void)
     return TRUE;
 }
 
-bool cmd_error(void)
+dig_bool cmd_error(void)
 {
     struct rb_node* node;
     unsigned int count = 0;
@@ -2207,7 +2207,7 @@ bool cmd_error(void)
     return TRUE;
 }
 
-bool cmd_copied(void)
+dig_bool cmd_copied(void)
 {
     struct rb_node* node;
     unsigned int count = 0;
@@ -2231,7 +2231,7 @@ bool cmd_copied(void)
     return TRUE;
 }
 
-bool cmd_renamed(void)
+dig_bool cmd_renamed(void)
 {
     struct rb_node* node;
     unsigned int count = 0;
@@ -2255,7 +2255,7 @@ bool cmd_renamed(void)
     return TRUE;
 }
 
-bool cmd_skipped(void)
+dig_bool cmd_skipped(void)
 {
     struct rb_node* node;
     unsigned int count = 0;
@@ -2279,7 +2279,7 @@ bool cmd_skipped(void)
     return TRUE;
 }
 
-bool cmd_write(void)
+dig_bool cmd_write(void)
 {
     FILE *sumfile = fopen(gopt_digestfile, "wb");
 
@@ -2378,7 +2378,7 @@ bool cmd_write(void)
     return FALSE;
 }
 
-bool cmd_quit(void)
+dig_bool cmd_quit(void)
 {
     return FALSE;
 }
